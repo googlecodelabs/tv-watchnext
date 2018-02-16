@@ -185,7 +185,7 @@ class MockDatabase(private val sharedPrefDatabase: SharedPreferencesDatabase) {
 
         private val INSTANCE = MockDatabase(SharedPreferencesDatabase())
 
-        fun getInstance(): MockDatabase {
+        fun get(): MockDatabase {
             return INSTANCE
         }
 

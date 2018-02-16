@@ -45,7 +45,7 @@ class SynchronizeChannelsJobService
             jobParameters: JobParameters) : JobServiceTask(jobService, jobParameters) {
 
         override fun doWork() {
-            SynchronizeChannelService(MockDatabase.getInstance())
+            SynchronizeChannelService(MockDatabase.get())
                     .synchronizeChannels(applicationContext)
         }
     }

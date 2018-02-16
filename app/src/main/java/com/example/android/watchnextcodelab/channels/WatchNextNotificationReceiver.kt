@@ -27,7 +27,7 @@ private const val TAG = "WatchNextNotificationReceiver"
 class WatchNextNotificationReceiver : BroadcastReceiver() {
 
     private val watchlistService = WatchlistService.get()
-    private val database = MockDatabase.getInstance()
+    private val database = MockDatabase.get()
 
     override fun onReceive(context: Context, intent: Intent) {
 
@@ -49,7 +49,8 @@ class WatchNextNotificationReceiver : BroadcastReceiver() {
 
                 val programId = extras.getLong(TvContractCompat.EXTRA_PREVIEW_PROGRAM_ID)
 
-                Log.d(TAG, "Preview program added to watch next program: $programId watch-next: $watchNextProgramId")
+                Log.d(TAG,
+                        "Preview program added to watch next program: $programId watch-next: $watchNextProgramId")
 
                 database.findAllMovieProgramIds(context)
                         .find { it.programIds.contains(programId) }

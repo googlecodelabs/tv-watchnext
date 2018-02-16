@@ -15,7 +15,7 @@
 package com.example.android.watchnextcodelab.model
 
 /**
- * Represents a group a movies as a category.
+ * Represents a group of movies as a category.
  */
 data class Category @JvmOverloads constructor(
         val id: String,

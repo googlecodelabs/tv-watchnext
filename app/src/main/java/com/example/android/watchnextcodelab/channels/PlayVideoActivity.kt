@@ -32,7 +32,7 @@ class PlayVideoActivity : Activity() {
 
         val movieId = ChannelTvProviderFacade.parseVideoId(intent.data)
 
-        val task = FindMovieByIdTask(MockDatabase.getInstance()) { movie ->
+        val task = FindMovieByIdTask(MockDatabase.get()) { movie ->
             if (movie != null) {
                 val playbackIntent = PlaybackActivity.newIntent(context = this, movie = movie)
                 startActivity(playbackIntent)

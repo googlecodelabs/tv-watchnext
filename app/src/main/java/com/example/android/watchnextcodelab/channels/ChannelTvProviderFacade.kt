@@ -282,7 +282,7 @@ object ChannelTvProviderFacade {
      * how they require the data. This prevents extra look ups queries to retrieve a map of category
      * ids to channel ids.
      *
-     * @param context used to getInstance a reference to a [ContentResolver].
+     * @param context used to get a reference to a [ContentResolver].
      * @return a bi-directional map of channel ids to category ids.
      */
     @WorkerThread
@@ -304,7 +304,7 @@ object ChannelTvProviderFacade {
     /**
      * Gets a list of channels from the TV Provider.
      *
-     * @param context used to getInstance a reference to a [android.content.ContentResolver]
+     * @param context used to get a reference to a [android.content.ContentResolver]
      * @return a list of channel ids
      */
     @WorkerThread

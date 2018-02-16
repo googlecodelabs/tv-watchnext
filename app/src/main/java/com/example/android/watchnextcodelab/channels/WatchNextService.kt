@@ -11,7 +11,7 @@ import com.example.android.watchnextcodelab.watchlist.WatchlistService
  */
 object WatchNextService {
 
-    private val database = MockDatabase.getInstance()
+    private val database = MockDatabase.get()
 
     @WorkerThread
     fun watchNext(context: Context, movieId: Long) {

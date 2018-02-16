@@ -24,8 +24,7 @@ import com.example.android.watchnextcodelab.model.Movie
 
 const val WATCHLIST_CATEGORY_ID = "3"
 
-class WatchlistService @JvmOverloads constructor(
-        private val database: MockDatabase = MockDatabase.getInstance()) {
+class WatchlistService constructor(private val database: MockDatabase = MockDatabase.get()) {
 
     private val liveWatchlist = MutableLiveData<Category>()
 
@@ -50,7 +49,7 @@ class WatchlistService @JvmOverloads constructor(
 
         // Only add the movie if it has not been added to the watch list before.
         val existingMovie = watchlistCategory.movies.find { m -> m.movieId == movie.movieId }
-        if( existingMovie == null ) {
+        if (existingMovie == null) {
             watchlistCategory.movies as MutableList += movie
             liveWatchlist.postValue(watchlistCategory)
         }

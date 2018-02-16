@@ -66,7 +66,7 @@ class MainFragment : BrowseFragment() {
     private var mBackgroundUri: String? = null
     private lateinit var mBackgroundManager: BackgroundManager
 
-    private val database: MockDatabase = MockDatabase.getInstance()
+    private val database: MockDatabase = MockDatabase.get()
 
     private val categoryObserver = Observer<List<Category>> { _ -> loadRows() }
 
