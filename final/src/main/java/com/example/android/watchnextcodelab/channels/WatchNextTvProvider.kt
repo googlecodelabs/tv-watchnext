@@ -38,12 +38,9 @@ private val WATCH_NEXT_MAP_PROJECTION =
  *
  *   1. If movie exists in the watch next row:
  *      1. Verify it has ***not*** been removed by the user so we can **update** the program.
- *      1. If it has been removed by the user (browsable ==0) then **remove** the program from the Tv
- *      Provider and treat the movie as a new program to add.
+ *      1. If it has been removed by the user (browsable ==0) then **remove** the program from the
+ *      Tv Provider and treat the movie as a new program to add.
  *  1. If it does not exists, then add the movie to the watch next row
- *
- * {@see Activity}
- * [PlayVideoActivity]
  *
  */
 object WatchNextTvProvider {
