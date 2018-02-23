@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-include ':step_1', ':final'
+include ':step_1', ':step_2', ':final'
