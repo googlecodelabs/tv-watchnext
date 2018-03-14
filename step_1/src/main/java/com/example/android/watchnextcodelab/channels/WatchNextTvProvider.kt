@@ -46,71 +46,38 @@ private val WATCH_NEXT_MAP_PROJECTION =
 object WatchNextTvProvider {
 
     fun addToWatchNextWatchlist(context: Context, movie: Movie): Long =
-            addToWatchNextRow(context, movie, TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_WATCHLIST)
+        addToWatchNextRow(
+            context,
+            movie,
+            TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_WATCHLIST)
 
     fun addToWatchNextNext(context: Context, movie: Movie): Long =
-            addToWatchNextRow(context, movie, TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_NEXT)
+        addToWatchNextRow(context, movie, TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_NEXT)
 
     fun addToWatchNextContinue(context: Context, movie: Movie, playbackPosition: Int): Long =
-            addToWatchNextRow(
-                    context,
-                    movie,
-                    TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE,
-                    playbackPosition)
+        addToWatchNextRow(
+                context,
+                movie,
+                TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE,
+                playbackPosition)
 
     private fun addToWatchNextRow(
-            context: Context,
-            movie: Movie,
-            @TvContractCompat.WatchNextPrograms.WatchNextType watchNextType: Int,
-            playbackPosition: Int? = null): Long {
+        context: Context,
+        movie: Movie,
+        @TvContractCompat.WatchNextPrograms.WatchNextType watchNextType: Int,
+        playbackPosition: Int? = null): Long {
 
         val movieId = movie.movieId.toString()
 
-        // Check if the movie is in the watch next row.
-        val existingProgram = findProgramByMovieId(context, movieId)
+        // TODO: Step 3 - find the existing program, see if it has been removed, and check if we
+        // should update the program.
 
-        // If the program has been removed by the user, remove it from the Tv Provider, and treat
-        // the movie as a new watch next program.
-        val removed = removeIfNotBrowsable(context, existingProgram)
 
-        val shouldUpdateProgram = existingProgram != null && !removed
+        // TODO: Step 6 - Create the content values for the Content Provider.
 
-        val builder = if (shouldUpdateProgram) {
-            WatchNextProgram.Builder(existingProgram)
-        } else {
-            convertMovie(movie)
-        }
 
-        // Update the Watch Next type since the user has explicitly asked for the movie to be in the
-        // watch list.
-        builder.setWatchNextType(watchNextType)
-                .setLastEngagementTimeUtcMillis(System.currentTimeMillis())
-        if (playbackPosition != null) {
-            builder.setLastPlaybackPositionMillis(playbackPosition)
-        }
-
-        val contentValues = builder.build().toContentValues()
-
-        if (shouldUpdateProgram) {
-            val program = existingProgram as WatchNextProgram
-            val watchNextProgramId = program.id
-            val watchNextProgramUri = TvContractCompat.buildWatchNextProgramUri(watchNextProgramId)
-            val rowsUpdated = context.contentResolver.update(
-                    watchNextProgramUri, contentValues, null, null)
-            if (rowsUpdated < 1) {
-                Log.e(TAG, "Failed to update watch next program $watchNextProgramId")
-                return -1L
-            }
-            return watchNextProgramId
-        } else {
-            val programUri = context.contentResolver.insert(
-                    TvContractCompat.WatchNextPrograms.CONTENT_URI, contentValues)
-
-            if (programUri == null || programUri == Uri.EMPTY) {
-                Log.e(TAG, "Failed to insert movie, $movieId, into the watch next row")
-            }
-            return ContentUris.parseId(programUri)
-        }
+        // TODO: Step 7 - Update or add the program to the content provider.
+        return -1 // Replace this return statement with the code from the codelab
     }
 
     fun deleteFromWatchNext(context: Context, movieId: String) {
@@ -121,25 +88,14 @@ object WatchNextTvProvider {
     }
 
     private fun findProgramByMovieId(context: Context, movieId: String): WatchNextProgram? {
-        context.contentResolver
-                .query(TvContractCompat.WatchNextPrograms.CONTENT_URI, WATCH_NEXT_MAP_PROJECTION,
-                        null, null, null, null)
-                ?.use { cursor ->
-                    if (cursor.moveToFirst()) {
-                        do {
-                            if (TextUtils.equals(
-                                    movieId,
-                                    cursor.getString(COLUMN_WATCH_NEXT_INTERNAL_PROVIDER_ID_INDEX))) {
+        // TODO: Step 4 - Find the movie by our app's internal id.
 
-                                return WatchNextProgram.fromCursor(cursor)
-                            }
-                        } while (cursor.moveToNext())
-                    }
-                }
         return null
     }
 
     private fun removeIfNotBrowsable(context: Context, program: WatchNextProgram?): Boolean {
+        // TODO: Step 5 - Check is a program has been removed from the UI by the user. If so, then
+        // remove the program from the content provider.
         if (program?.isBrowsable == false) {
             val watchNextProgramId = program.id
             removeProgram(context, watchNextProgramId)
@@ -163,29 +119,29 @@ object WatchNextTvProvider {
         val movieId = java.lang.Long.toString(movie.movieId)
         val builder = WatchNextProgram.Builder()
         builder.setTitle(movie.title)
-                .setDescription(movie.description)
-                .setDurationMillis(movie.duration.toInt())
-                .setType(TvContractCompat.PreviewPrograms.TYPE_MOVIE)
-                .setIntentUri(Uri
-                        .withAppendedPath(BASE_URI, PLAY_VIDEO_ACTION_PATH)
-                        .buildUpon()
-                        .appendPath(movieId)
-                        .build())
-                .setInternalProviderId(movieId)
-                .setContentId(movieId)
-                .setPreviewVideoUri(Uri.parse(movie.previewVideoUrl))
-                .setPosterArtUri(Uri.parse(movie.thumbnailUrl))
-                .setPosterArtAspectRatio(movie.posterArtAspectRatio)
-                .setContentRatings(arrayOf(movie.contentRating))
-                .setGenre(movie.genre)
-                .setLive(movie.isLive)
-                .setReleaseDate(movie.releaseDate)
-                .setReviewRating(movie.rating)
-                .setReviewRatingStyle(movie.ratingStyle)
-                .setStartingPrice(movie.startingPrice)
-                .setOfferPrice(movie.offerPrice)
-                .setVideoWidth(movie.width)
-                .setVideoHeight(movie.height)
+            .setDescription(movie.description)
+            .setDurationMillis(movie.duration.toInt())
+            .setType(TvContractCompat.PreviewPrograms.TYPE_MOVIE)
+            .setIntentUri(Uri
+                .withAppendedPath(BASE_URI, PLAY_VIDEO_ACTION_PATH)
+                .buildUpon()
+                .appendPath(movieId)
+                .build())
+            .setInternalProviderId(movieId)
+            .setContentId(movieId)
+            .setPreviewVideoUri(Uri.parse(movie.previewVideoUrl))
+            .setPosterArtUri(Uri.parse(movie.thumbnailUrl))
+            .setPosterArtAspectRatio(movie.posterArtAspectRatio)
+            .setContentRatings(arrayOf(movie.contentRating))
+            .setGenre(movie.genre)
+            .setLive(movie.isLive)
+            .setReleaseDate(movie.releaseDate)
+            .setReviewRating(movie.rating)
+            .setReviewRatingStyle(movie.ratingStyle)
+            .setStartingPrice(movie.startingPrice)
+            .setOfferPrice(movie.offerPrice)
+            .setVideoWidth(movie.width)
+            .setVideoHeight(movie.height)
         return builder
     }
 }

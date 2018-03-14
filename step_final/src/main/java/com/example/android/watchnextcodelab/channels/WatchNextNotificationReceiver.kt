@@ -32,31 +32,36 @@ class WatchNextNotificationReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
 
         val extras = intent.extras
+        // TODO: Step 9 extract the EXTRA_WATCH_NEXT_PROGRAM_ID
         val watchNextProgramId = extras.getLong(TvContractCompat.EXTRA_WATCH_NEXT_PROGRAM_ID)
 
         when(intent.action) {
+            // TODO: Step 10 remove the movie from the watchlist.
+
             // A program has been removed from the watch next row.
             TvContractCompat.ACTION_WATCH_NEXT_PROGRAM_BROWSABLE_DISABLED -> {
                 Log.d(TAG, "Program removed from watch next watch-next: $watchNextProgramId")
 
                 database.findAllMovieProgramIds(context)
-                        .find { it.watchNextProgramId == watchNextProgramId }
-                        ?.apply {
-                            watchlistService.removeMovieFromWatchlist(context, movieId)
-                        }
+                    .find { it.watchNextProgramId == watchNextProgramId }
+                    ?.apply {
+                        watchlistService.removeMovieFromWatchlist(context, movieId)
+                    }
             }
+
+            // TODO: Step 11 add the movie to the watchlist.
             TvContractCompat.ACTION_PREVIEW_PROGRAM_ADDED_TO_WATCH_NEXT -> {
 
                 val programId = extras.getLong(TvContractCompat.EXTRA_PREVIEW_PROGRAM_ID)
 
                 Log.d(TAG,
-                        "Preview program added to watch next program: $programId watch-next: $watchNextProgramId")
+                    "Preview program added to watch next program: $programId watch-next: $watchNextProgramId")
 
                 database.findAllMovieProgramIds(context)
-                        .find { it.programIds.contains(programId) }
-                        ?.apply {
-                            watchlistService.addToWatchlist(context, movieId)
-                        }
+                    .find { it.programIds.contains(programId) }
+                    ?.apply {
+                        watchlistService.addToWatchlist(context, movieId)
+                    }
 
             }
         }

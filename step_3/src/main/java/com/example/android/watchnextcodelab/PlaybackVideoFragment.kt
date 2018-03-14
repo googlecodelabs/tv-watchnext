@@ -194,6 +194,8 @@ private class SyncWatchNextCallback(private val context: Context, private val mo
 
     override fun onPlayStateChanged(glue: PlaybackGlue) {
         Log.d(TAG, "Player state changed: is ${if (glue.isPlaying) "playing" else "paused"}")
+
+        // TODO: Step 1 - Update the Play Next row when the video is paused.
         if (!glue.isPlaying) {
             val controlGlue = glue as PlaybackTransportControlGlue<*>
             val playbackPosition = controlGlue.playerAdapter.currentPosition.toInt()
@@ -202,12 +204,15 @@ private class SyncWatchNextCallback(private val context: Context, private val mo
     }
 
     override fun onPlayCompleted(glue: PlaybackGlue) {
-        Log.d(TAG, "Playback completed, time to remove the program from the Watch Next row.")
+        Log.d(TAG, "Playback completed, time to remove the program from the Play Next row.")
+
+        // TODO: Step 2 - Schedule remove the program from the Play Next row.
         scheduleRemoveFromWatchNextContinue(context = context, movie = movie)
 
+        // TODO: Step 8 - Schedule the next video to be added to the Play Next row.
         movie.nextMovieIdInSeries?.let { id ->
             if (id > -1L) {
-                Log.d(TAG, "There is another video in the series, adding it to the Watch Next row.")
+                Log.d(TAG, "There is another video in the series, adding it to the Play Next row.")
                 scheduleAddingToWatchNextNext(context = context, movieId = id)
             }
         }
