@@ -67,8 +67,7 @@ class PlaybackVideoFragment : VideoSupportFragment() {
 
         val glueHost = VideoSupportFragmentGlueHost(this@PlaybackVideoFragment)
 
-        playerGlue = PlaybackTransportControlGlue(context, MediaPlayerAdapter(context))
-        playerGlue?.apply {
+        playerGlue = PlaybackTransportControlGlue(context, MediaPlayerAdapter(context)).apply {
             host = glueHost
             this.title = title
             subtitle = description

@@ -67,8 +67,7 @@ class PlaybackVideoFragment : VideoSupportFragment() {
 
         val glueHost = VideoSupportFragmentGlueHost(this@PlaybackVideoFragment)
 
-        playerGlue = PlaybackTransportControlGlue(context, MediaPlayerAdapter(context))
-        playerGlue?.apply {
+        playerGlue = PlaybackTransportControlGlue(context, MediaPlayerAdapter(context)).apply {
             host = glueHost
             this.title = title
             subtitle = description
@@ -110,15 +109,15 @@ class PlaybackVideoFragment : VideoSupportFragment() {
     private fun getResumePlaybackPosition(movie: Movie): Long {
         context?.let { context ->
             return SharedPreferencesDatabase()
-                    .findPlaybackPositionForMovie(context, movie)
-                    .toLong()
+                .findPlaybackPositionForMovie(context, movie)
+                .toLong()
         }
         return -1
     }
 
     private fun updatePlaybackState() {
         val stateBuilder = PlaybackStateCompat.Builder()
-                .setActions(getAvailableActions())
+            .setActions(getAvailableActions())
         var state = PlaybackStateCompat.STATE_PAUSED
         if (playerGlue?.isPlaying == true) {
             state = PlaybackState.STATE_PLAYING
@@ -155,26 +154,27 @@ class PlaybackVideoFragment : VideoSupportFragment() {
         metadataBuilder.putString(MediaMetadata.METADATA_KEY_ARTIST, description)
 
         Glide.with(context)
-                .asBitmap()
-                .load(Uri.parse(cardImageUrl))
-                .into(object : SimpleTarget<Bitmap>() {
-                    override fun onResourceReady(bitmap: Bitmap?,
-                                                 transition: Transition<in Bitmap>?) {
-                        metadataBuilder.putBitmap(MediaMetadata.METADATA_KEY_ART, bitmap)
-                        session.setMetadata(metadataBuilder.build())
-                    }
+            .asBitmap()
+            .load(Uri.parse(cardImageUrl))
+            .into(object : SimpleTarget<Bitmap>() {
+                override fun onResourceReady(
+                    bitmap: Bitmap?,
+                    transition: Transition<in Bitmap>?
+                ) {
+                    metadataBuilder.putBitmap(MediaMetadata.METADATA_KEY_ART, bitmap)
+                    session.setMetadata(metadataBuilder.build())
+                }
 
-                    override fun onLoadFailed(errorDrawable: Drawable?) {
-                        Log.e(TAG, "onLoadFailed: " + errorDrawable)
-                        session.setMetadata(metadataBuilder.build())
-                    }
-                })
+                override fun onLoadFailed(errorDrawable: Drawable?) {
+                    Log.e(TAG, "onLoadFailed: " + errorDrawable)
+                    session.setMetadata(metadataBuilder.build())
+                }
+            })
     }
-
 }
 
 class VideoMediaSessionCallBack(private val glue: PlaybackTransportControlGlue<*>?) :
-        MediaSessionCompat.Callback() {
+    MediaSessionCompat.Callback() {
     override fun onPlay() {
         glue?.play()
     }
@@ -186,11 +186,10 @@ class VideoMediaSessionCallBack(private val glue: PlaybackTransportControlGlue<*
     override fun onSeekTo(position: Long) {
         glue?.seekTo(position)
     }
-
 }
 
 private class SyncWatchNextCallback(private val context: Context, private val movie: Movie) :
-        PlaybackGlue.PlayerCallback() {
+    PlaybackGlue.PlayerCallback() {
 
     override fun onPlayStateChanged(glue: PlaybackGlue) {
         Log.d(TAG, "Player state changed: is ${if (glue.isPlaying) "playing" else "paused"}")
