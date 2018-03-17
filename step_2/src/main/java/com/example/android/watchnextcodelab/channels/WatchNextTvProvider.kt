@@ -91,7 +91,8 @@ object WatchNextTvProvider {
 
         // Update the Watch Next type since the user has explicitly asked for the movie to be added
         // to the Play Next row.
-        builder.setWatchNextType(watchNextType)
+        // TODO: Step 9 Update the watch next type.
+        builder.setWatchNextType(TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE)
             .setLastEngagementTimeUtcMillis(System.currentTimeMillis())
         if (playbackPosition != null) {
             builder.setLastPlaybackPositionMillis(playbackPosition)
@@ -137,10 +138,9 @@ object WatchNextTvProvider {
             ?.use { cursor ->
                 if (cursor.moveToFirst()) {
                     do {
-                        if (TextUtils.equals(
-                                movieId,
-                                cursor.getString(COLUMN_WATCH_NEXT_INTERNAL_PROVIDER_ID_INDEX))) {
-
+                        val watchNextInternalId =
+                            cursor.getString(COLUMN_WATCH_NEXT_INTERNAL_PROVIDER_ID_INDEX)
+                        if (movieId == watchNextInternalId) {
                             return WatchNextProgram.fromCursor(cursor)
                         }
                     } while (cursor.moveToNext())

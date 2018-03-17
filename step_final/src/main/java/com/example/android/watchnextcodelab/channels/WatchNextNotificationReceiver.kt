@@ -32,11 +32,11 @@ class WatchNextNotificationReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
 
         val extras = intent.extras
-        // TODO: Step 9 extract the EXTRA_WATCH_NEXT_PROGRAM_ID
+        // TODO: Step 10 extract the EXTRA_WATCH_NEXT_PROGRAM_ID
         val watchNextProgramId = extras.getLong(TvContractCompat.EXTRA_WATCH_NEXT_PROGRAM_ID)
 
         when(intent.action) {
-            // TODO: Step 10 remove the movie from the watchlist.
+            // TODO: Step 11 remove the movie from the watchlist.
 
             // A program has been removed from the watch next row.
             TvContractCompat.ACTION_WATCH_NEXT_PROGRAM_BROWSABLE_DISABLED -> {
@@ -49,7 +49,7 @@ class WatchNextNotificationReceiver : BroadcastReceiver() {
                     }
             }
 
-            // TODO: Step 11 add the movie to the watchlist.
+            // TODO: Step 12 add the movie to the watchlist.
             TvContractCompat.ACTION_PREVIEW_PROGRAM_ADDED_TO_WATCH_NEXT -> {
 
                 val programId = extras.getLong(TvContractCompat.EXTRA_PREVIEW_PROGRAM_ID)

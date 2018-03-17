@@ -91,6 +91,7 @@ object WatchNextTvProvider {
 
         // Update the Watch Next type since the user has explicitly asked for the movie to be added
         // to the Play Next row.
+        // TODO: Step 9 Update the watch next type.
         builder.setWatchNextType(watchNextType)
                 .setLastEngagementTimeUtcMillis(System.currentTimeMillis())
         if (playbackPosition != null) {
@@ -132,20 +133,19 @@ object WatchNextTvProvider {
     private fun findProgramByMovieId(context: Context, movieId: String): WatchNextProgram? {
         // TODO: Step 4 - Find the movie by our app's internal id.
         context.contentResolver
-                .query(TvContractCompat.WatchNextPrograms.CONTENT_URI, WATCH_NEXT_MAP_PROJECTION,
-                        null, null, null, null)
-                ?.use { cursor ->
-                    if (cursor.moveToFirst()) {
-                        do {
-                            if (TextUtils.equals(
-                                    movieId,
-                                    cursor.getString(COLUMN_WATCH_NEXT_INTERNAL_PROVIDER_ID_INDEX))) {
-
-                                return WatchNextProgram.fromCursor(cursor)
-                            }
-                        } while (cursor.moveToNext())
-                    }
+            .query(TvContractCompat.WatchNextPrograms.CONTENT_URI, WATCH_NEXT_MAP_PROJECTION,
+                    null, null, null, null)
+            ?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    do {
+                        val watchNextInternalId =
+                            cursor.getString(COLUMN_WATCH_NEXT_INTERNAL_PROVIDER_ID_INDEX)
+                        if (movieId == watchNextInternalId) {
+                            return WatchNextProgram.fromCursor(cursor)
+                        }
+                    } while (cursor.moveToNext())
                 }
+            }
         return null
     }
 
