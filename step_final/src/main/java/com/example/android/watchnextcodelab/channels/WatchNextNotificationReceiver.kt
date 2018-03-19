@@ -20,13 +20,13 @@ import android.content.Intent
 import android.support.media.tv.TvContractCompat
 import android.util.Log
 import com.example.android.watchnextcodelab.database.MockDatabase
-import com.example.android.watchnextcodelab.watchlist.WatchlistService
+import com.example.android.watchnextcodelab.watchlist.WatchlistManager
 
 private const val TAG = "WatchNextNotificationReceiver"
 
 class WatchNextNotificationReceiver : BroadcastReceiver() {
 
-    private val watchlistService = WatchlistService.get()
+    private val watchlistManager = WatchlistManager.get()
     private val database = MockDatabase.get()
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -45,7 +45,7 @@ class WatchNextNotificationReceiver : BroadcastReceiver() {
                 database.findAllMovieProgramIds(context)
                     .find { it.watchNextProgramId == watchNextProgramId }
                     ?.apply {
-                        watchlistService.removeMovieFromWatchlist(context, movieId)
+                        watchlistManager.removeMovieFromWatchlist(context, movieId)
                     }
             }
 
@@ -60,7 +60,7 @@ class WatchNextNotificationReceiver : BroadcastReceiver() {
                 database.findAllMovieProgramIds(context)
                     .find { it.programIds.contains(programId) }
                     ?.apply {
-                        watchlistService.addToWatchlist(context, movieId)
+                        watchlistManager.addToWatchlist(context, movieId)
                     }
 
             }

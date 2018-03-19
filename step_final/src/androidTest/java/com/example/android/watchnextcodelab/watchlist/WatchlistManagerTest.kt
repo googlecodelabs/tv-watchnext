@@ -38,9 +38,9 @@ import java.lang.reflect.Array as JavaArray
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
-class WatchlistServiceTest {
+class WatchlistManagerTest {
 
-    private lateinit var service: WatchlistService
+    private lateinit var manager: WatchlistManager
 
     @Mock
     private lateinit var mockSharedPrefDatabase: SharedPreferencesDatabase
@@ -62,7 +62,7 @@ class WatchlistServiceTest {
 
         mockDatabase = MockDatabase(mockSharedPrefDatabase)
 
-        service = WatchlistService(mockDatabase)
+        manager = WatchlistManager(mockDatabase)
 
         // Clear the watchlist before the first run test.
         teardown()
@@ -70,7 +70,7 @@ class WatchlistServiceTest {
 
     @After
     fun teardown() {
-        service.removeMovieFromWatchlist(context, one.movieId)
+        manager.removeMovieFromWatchlist(context, one.movieId)
     }
 
     @Test
@@ -79,7 +79,7 @@ class WatchlistServiceTest {
         // Assert that the Watchlist category does not exist before we add the first movie.
         assertWatchlistDoesNotExist()
 
-        service.addToWatchlist(context, one.movieId)
+        manager.addToWatchlist(context, one.movieId)
 
         // Verify the category has been persisted.
         assertWatchlistDoesExist()
@@ -102,14 +102,14 @@ class WatchlistServiceTest {
         // Assert that the Watchlist category does not exist before we add the first movie.
         assertWatchlistDoesNotExist()
 
-        service.addToWatchlist(context, one.movieId)
+        manager.addToWatchlist(context, one.movieId)
 
         // Assert that movie has been added.
-        mockDatabase.findCategoryById(context, WATCHLIST_CATEGORY_ID)?.let {
-            (_, _, _, movies) -> assertThat("There should be one movie persisted", movies, hasSize(1))
+        mockDatabase.findCategoryById(context, WATCHLIST_CATEGORY_ID)?.let { (_, _, _, movies) ->
+            assertThat("There should be one movie persisted", movies, hasSize(1))
         }
         // Add the same movie again and check that it did not add the duplicate.
-        service.addToWatchlist(context, one.movieId)
+        manager.addToWatchlist(context, one.movieId)
 
         // Test that the duplicate was not added.
         val category = mockDatabase.findCategoryById(context, WATCHLIST_CATEGORY_ID)
@@ -128,10 +128,10 @@ class WatchlistServiceTest {
     fun removeMovieFromWatchlist_removed_category_if_empty() {
 
         // Prime the list with a movie to be removed.
-        service.addToWatchlist(context, one.movieId)
+        manager.addToWatchlist(context, one.movieId)
         assertWatchlistDoesExist()
 
-        service.removeMovieFromWatchlist(context, one.movieId)
+        manager.removeMovieFromWatchlist(context, one.movieId)
         assertWatchlistDoesNotExist()
     }
 
@@ -139,13 +139,13 @@ class WatchlistServiceTest {
     fun removeMovieFromWatchlist_updates_hotlist() {
 
         // Prime the list with a movie to be removed.
-        service.addToWatchlist(context, one.movieId)
+        manager.addToWatchlist(context, one.movieId)
         assertThat("There should be 3 movies in the watch next list",
                 mockDatabase.findAllCategories(context), hasSize(3))
 
         val categories = mockDatabase.getLiveCategories(context)
 
-        service.removeMovieFromWatchlist(context, one.movieId)
+        manager.removeMovieFromWatchlist(context, one.movieId)
 
         categories.observeForever { updated -> assertThat<List<Category>>(updated, hasSize(2)) }
     }

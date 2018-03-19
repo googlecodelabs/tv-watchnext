@@ -4,12 +4,12 @@ import android.content.Context
 import android.support.annotation.WorkerThread
 import com.example.android.watchnextcodelab.database.MockDatabase
 import com.example.android.watchnextcodelab.database.SharedPreferencesDatabase
-import com.example.android.watchnextcodelab.watchlist.WatchlistService
+import com.example.android.watchnextcodelab.watchlist.WatchlistManager
 
 /**
  * Functions for managing the watch next row.
  */
-object WatchNextService {
+object WatchNextAction {
 
     private val database = MockDatabase.get()
 
@@ -40,16 +40,16 @@ object WatchNextService {
         SharedPreferencesDatabase().deletePlaybackPosition(context, movieId.toString())
 
         // If the user finishes watching a movie in the watch list, then remove it from the list.
-        WatchlistService.get().removeMovieFromWatchlist(context, movieId)
+        WatchlistManager.get().removeMovieFromWatchlist(context, movieId)
     }
 
     @WorkerThread
     fun addToWatchlist(context: Context, movieId: Long) {
-        WatchlistService.get().addToWatchlist(context, movieId)
+        WatchlistManager.get().addToWatchlist(context, movieId)
     }
 
     @WorkerThread
     fun removeFromWatchlist(context: Context, movieId: Long) {
-        WatchlistService.get().removeMovieFromWatchlist(context, movieId)
+        WatchlistManager.get().removeMovieFromWatchlist(context, movieId)
     }
 }

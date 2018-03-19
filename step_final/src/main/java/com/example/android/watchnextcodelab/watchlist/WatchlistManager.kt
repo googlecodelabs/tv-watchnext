@@ -24,7 +24,7 @@ import com.example.android.watchnextcodelab.model.Movie
 
 const val WATCHLIST_CATEGORY_ID = "3"
 
-class WatchlistService constructor(private val database: MockDatabase = MockDatabase.get()) {
+class WatchlistManager constructor(private val database: MockDatabase = MockDatabase.get()) {
 
     private val liveWatchlist = MutableLiveData<Category>()
 
@@ -99,9 +99,9 @@ class WatchlistService constructor(private val database: MockDatabase = MockData
 
     companion object {
 
-        private val INSTANCE = WatchlistService()
+        private val INSTANCE = WatchlistManager()
 
-        fun get(): WatchlistService {
+        fun get(): WatchlistManager {
             return INSTANCE
         }
     }

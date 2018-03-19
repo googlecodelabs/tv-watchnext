@@ -39,7 +39,7 @@ class AddToWatchNextContinueJobService
             : PerformWatchNextWithPlaybackPositionTask {
         return PerformWatchNextWithPlaybackPositionTask(jobService = this,
                 jobParameters = jobParameters,
-                action = WatchNextService::addToContinueWatching)
+                action = WatchNextAction::addToContinueWatching)
     }
 }
 
@@ -55,7 +55,7 @@ fun scheduleAddToWatchNextContinue(context: Context, movie: Movie, playbackPosit
  * screen and the watchlist category.
  */
 class RemoveFromWatchNextContinueJobService :
-        WatchListJobService(WatchNextService::removeFromContinueWatching)
+        WatchListJobService(WatchNextAction::removeFromContinueWatching)
 
 
 fun scheduleRemoveFromWatchNextContinue(context: Context, movie: Movie) {
@@ -66,7 +66,7 @@ fun scheduleRemoveFromWatchNextContinue(context: Context, movie: Movie) {
  * Schedules and runs a background job to add a program to the watch next row on the home screen.
  * The program will have type [TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_NEXT].
  */
-class AddToWatchNextNextJobService : WatchListJobService(WatchNextService::watchNext)
+class AddToWatchNextNextJobService : WatchListJobService(WatchNextAction::watchNext)
 
 fun scheduleAddingToWatchNextNext(context: Context, movieId: Long) {
     scheduleWatchlistJob(context, AddToWatchNextNextJobService::class.java, movieId)
@@ -77,7 +77,7 @@ fun scheduleAddingToWatchNextNext(context: Context, movieId: Long) {
  * the watchlist category. The program will have type
  * [TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_WATCHLIST].
  */
-class AddToWatchListJobService : WatchListJobService(WatchNextService::addToWatchlist)
+class AddToWatchListJobService : WatchListJobService(WatchNextAction::addToWatchlist)
 
 fun scheduleAddingToWatchlist(context: Context, movie: Movie) {
     scheduleWatchlistJob(context, AddToWatchListJobService::class.java, movie)
@@ -87,7 +87,7 @@ fun scheduleAddingToWatchlist(context: Context, movie: Movie) {
  * Schedules and runs a background job to remove a program from the watch next row on the home
  * screen and the watchlist category.
  */
-class RemoveFromWatchListJobService : WatchListJobService(WatchNextService::removeFromWatchlist)
+class RemoveFromWatchListJobService : WatchListJobService(WatchNextAction::removeFromWatchlist)
 
 fun scheduleRemoveFromWatchlist(context: Context, movie: Movie) {
     scheduleWatchlistJob(context, RemoveFromWatchListJobService::class.java, movie)

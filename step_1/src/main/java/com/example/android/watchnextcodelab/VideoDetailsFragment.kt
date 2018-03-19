@@ -41,7 +41,7 @@ import com.example.android.watchnextcodelab.channels.scheduleRemoveFromWatchlist
 import com.example.android.watchnextcodelab.model.Category
 import com.example.android.watchnextcodelab.model.Movie
 import com.example.android.watchnextcodelab.presenter.DetailsDescriptionPresenter
-import com.example.android.watchnextcodelab.watchlist.WatchlistService
+import com.example.android.watchnextcodelab.watchlist.WatchlistManager
 
 private const val TAG = "VideoDetailsFragment"
 
@@ -64,14 +64,14 @@ class VideoDetailsFragment : DetailsFragment() {
     private lateinit var rowAdapter: ArrayObjectAdapter
     private lateinit var presenterSelector: ClassPresenterSelector
 
-    private val watchlistService = WatchlistService.get()
+    private val watchlistManager = WatchlistManager.get()
     private var isMovieInWatchList: Boolean = false
 
     private lateinit var detailsBackground: DetailsFragmentBackgroundController
     private lateinit var actionAdapter: ArrayObjectAdapter
     private lateinit var addToWatchlistAction: Action
     private val watchlistObserver = Observer<Category> {
-        isMovieInWatchList = watchlistService.isInWatchlist(context, selectedMovie)
+        isMovieInWatchList = watchlistManager.isInWatchlist(context, selectedMovie)
         addToWatchlistAction.label1 = watchlistActionLabel
         actionAdapter.notifyArrayItemRangeChanged(ACTION_ADD_TO_LIST_INDEX, 1)
     }
@@ -101,19 +101,19 @@ class VideoDetailsFragment : DetailsFragment() {
 
         presenterSelector = ClassPresenterSelector()
         rowAdapter = ArrayObjectAdapter(presenterSelector)
-        isMovieInWatchList = watchlistService.isInWatchlist(context, selectedMovie)
+        isMovieInWatchList = watchlistManager.isInWatchlist(context, selectedMovie)
 
         setupDetailsOverviewRow()
         setupDetailsOverviewRowPresenter()
         adapter = rowAdapter
         initializeBackground(selectedMovie)
 
-        watchlistService.getLiveWatchlist().observeForever(watchlistObserver)
+        watchlistManager.getLiveWatchlist().observeForever(watchlistObserver)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        watchlistService.getLiveWatchlist().removeObserver(watchlistObserver)
+        watchlistManager.getLiveWatchlist().removeObserver(watchlistObserver)
     }
 
     private fun initializeBackground(data: Movie) {

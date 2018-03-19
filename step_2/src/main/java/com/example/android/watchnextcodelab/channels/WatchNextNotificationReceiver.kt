@@ -17,16 +17,14 @@ package com.example.android.watchnextcodelab.channels
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.support.media.tv.TvContractCompat
-import android.util.Log
 import com.example.android.watchnextcodelab.database.MockDatabase
-import com.example.android.watchnextcodelab.watchlist.WatchlistService
+import com.example.android.watchnextcodelab.watchlist.WatchlistManager
 
 private const val TAG = "WatchNextNotificationReceiver"
 
 class WatchNextNotificationReceiver : BroadcastReceiver() {
 
-    private val watchlistService = WatchlistService.get()
+    private val watchlistManager = WatchlistManager.get()
     private val database = MockDatabase.get()
 
     override fun onReceive(context: Context, intent: Intent) {
