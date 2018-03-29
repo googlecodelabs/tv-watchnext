@@ -75,8 +75,8 @@ object WatchNextTvProvider {
         // Check if the movie is in the watch next row.
         val existingProgram = findProgramByMovieId(context, movieId)
 
-        // If the program has been removed by the user, remove it from the Tv Provider, and treat
-        // the movie as a new watch next program.
+        // If the program is not visible, remove it from the Tv Provider, and treat the movie as a
+        // new watch next program.
         val removed = removeIfNotBrowsable(context, existingProgram)
 
         val shouldUpdateProgram = existingProgram != null && !removed
