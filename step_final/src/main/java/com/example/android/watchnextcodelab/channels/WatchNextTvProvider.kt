@@ -99,8 +99,6 @@ object WatchNextTvProvider {
             builder.setLastPlaybackPositionMillis(playbackPosition)
         }
 
-        val contentValues = builder.build().toContentValues()
-
         // TODO: Step 7 - Update or add the program to the content provider.
         if (shouldUpdateProgram) {
             val program = existingProgram as WatchNextProgram
@@ -109,8 +107,8 @@ object WatchNextTvProvider {
             return watchNextProgramId
 
         } else {
-            val program = builder.build()
-            return PreviewChannelHelper(context).publishWatchNextProgram(program)
+            val watchNext = builder.build()
+            return PreviewChannelHelper(context).publishWatchNextProgram(watchNext)
         }
     }
 
