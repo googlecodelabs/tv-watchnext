@@ -21,7 +21,7 @@ import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
 import android.os.PersistableBundle
-import android.support.media.tv.TvContractCompat
+import androidx.tvprovider.media.tv.TvContractCompat
 import com.example.android.watchnextcodelab.MOVIE_ID
 import com.example.android.watchnextcodelab.PLAYBACK_POSITION
 import com.example.android.watchnextcodelab.background.BackgroundJobService

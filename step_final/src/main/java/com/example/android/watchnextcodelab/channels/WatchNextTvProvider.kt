@@ -14,14 +14,14 @@
 
 package com.example.android.watchnextcodelab.channels
 
-import android.content.ContentUris
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.provider.BaseColumns
-import android.support.media.tv.TvContractCompat
-import android.support.media.tv.WatchNextProgram
-import android.text.TextUtils
+import androidx.tvprovider.media.tv.TvContractCompat
+import androidx.tvprovider.media.tv.WatchNextProgram
 import android.util.Log
+import androidx.tvprovider.media.tv.PreviewChannelHelper
 import com.example.android.watchnextcodelab.model.Movie
 
 private const val TAG = "WatchNextTvProviderFacade"
@@ -61,10 +61,11 @@ object WatchNextTvProvider {
                     TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE,
                     playbackPosition)
 
+    @SuppressLint("RestrictedApi")
     private fun addToWatchNextRow(
             context: Context,
             movie: Movie,
-            @TvContractCompat.WatchNextPrograms.WatchNextType watchNextType: Int,
+            watchNextType: Int,
             playbackPosition: Int? = null): Long {
 
         val movieId = movie.movieId.toString()
@@ -104,25 +105,16 @@ object WatchNextTvProvider {
         if (shouldUpdateProgram) {
             val program = existingProgram as WatchNextProgram
             val watchNextProgramId = program.id
-            val watchNextProgramUri = TvContractCompat.buildWatchNextProgramUri(watchNextProgramId)
-            val rowsUpdated = context.contentResolver.update(
-                    watchNextProgramUri, contentValues, null, null)
-            if (rowsUpdated < 1) {
-                Log.e(TAG, "Failed to update watch next program $watchNextProgramId")
-                return -1L
-            }
+            PreviewChannelHelper(context).updateWatchNextProgram(program, watchNextProgramId)
             return watchNextProgramId
-        } else {
-            val programUri = context.contentResolver.insert(
-                    TvContractCompat.WatchNextPrograms.CONTENT_URI, contentValues)
 
-            if (programUri == null || programUri == Uri.EMPTY) {
-                Log.e(TAG, "Failed to insert movie, $movieId, into the watch next row")
-            }
-            return ContentUris.parseId(programUri)
+        } else {
+            val program = builder.build()
+            return PreviewChannelHelper(context).publishWatchNextProgram(program)
         }
     }
 
+    @SuppressLint("RestrictedApi")
     fun deleteFromWatchNext(context: Context, movieId: String) {
         val program = findProgramByMovieId(context = context, movieId = movieId)
         if (program != null) {
@@ -149,6 +141,7 @@ object WatchNextTvProvider {
         return null
     }
 
+    @SuppressLint("RestrictedApi")
     private fun removeIfNotBrowsable(context: Context, program: WatchNextProgram?): Boolean {
         // TODO: Step 5 - Check is a program has been removed from the UI by the user. If so, then
         // remove the program from the content provider.

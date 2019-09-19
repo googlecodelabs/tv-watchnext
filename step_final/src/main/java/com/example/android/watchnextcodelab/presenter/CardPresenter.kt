@@ -15,10 +15,10 @@
 package com.example.android.watchnextcodelab.presenter
 
 import android.graphics.drawable.Drawable
-import android.support.media.tv.TvContractCompat
-import android.support.v17.leanback.widget.ImageCardView
-import android.support.v17.leanback.widget.Presenter
-import android.support.v4.content.ContextCompat
+import androidx.tvprovider.media.tv.TvContractCompat
+import androidx.leanback.widget.ImageCardView
+import androidx.leanback.widget.Presenter
+import androidx.core.content.ContextCompat
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup

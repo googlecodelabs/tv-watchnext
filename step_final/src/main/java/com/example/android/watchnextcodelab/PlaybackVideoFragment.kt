@@ -21,11 +21,11 @@ import android.media.MediaMetadata
 import android.media.session.PlaybackState
 import android.net.Uri
 import android.os.Bundle
-import android.support.v17.leanback.app.VideoSupportFragment
-import android.support.v17.leanback.app.VideoSupportFragmentGlueHost
-import android.support.v17.leanback.media.MediaPlayerAdapter
-import android.support.v17.leanback.media.PlaybackGlue
-import android.support.v17.leanback.media.PlaybackTransportControlGlue
+import androidx.leanback.app.VideoSupportFragment
+import androidx.leanback.app.VideoSupportFragmentGlueHost
+import androidx.leanback.media.MediaPlayerAdapter
+import androidx.leanback.media.PlaybackGlue
+import androidx.leanback.media.PlaybackTransportControlGlue
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -153,13 +153,12 @@ class PlaybackVideoFragment : VideoSupportFragment() {
         metadataBuilder.putString(MediaMetadata.METADATA_KEY_TITLE, title)
         metadataBuilder.putString(MediaMetadata.METADATA_KEY_ARTIST, description)
 
-        Glide.with(context)
+        Glide.with(requireContext())
                 .asBitmap()
                 .load(Uri.parse(cardImageUrl))
                 .into(object : SimpleTarget<Bitmap>() {
-                    override fun onResourceReady(bitmap: Bitmap?,
-                                                 transition: Transition<in Bitmap>?) {
-                        metadataBuilder.putBitmap(MediaMetadata.METADATA_KEY_ART, bitmap)
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        metadataBuilder.putBitmap(MediaMetadata.METADATA_KEY_ART, resource)
                         session.setMetadata(metadataBuilder.build())
                     }
 
