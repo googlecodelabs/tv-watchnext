@@ -17,7 +17,7 @@
 package com.example.android.watchnextcodelab
 
 import android.media.tv.TvContentRating
-import android.support.media.tv.TvContractCompat
+import androidx.tvprovider.media.tv.TvContractCompat
 import com.example.android.watchnextcodelab.model.Movie
 
 /**

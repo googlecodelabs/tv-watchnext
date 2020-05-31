@@ -17,7 +17,7 @@ package com.example.android.watchnextcodelab.model
 import android.media.tv.TvContentRating
 import android.os.Parcel
 import android.os.Parcelable
-import android.support.media.tv.TvContractCompat
+import androidx.tvprovider.media.tv.TvContractCompat
 
 /**
  * Represents a movie entity with detailed attributes describing the video.

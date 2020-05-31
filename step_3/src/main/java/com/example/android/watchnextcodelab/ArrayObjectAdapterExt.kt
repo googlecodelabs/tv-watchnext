@@ -16,8 +16,8 @@
 
 package com.example.android.watchnextcodelab
 
-import android.support.v17.leanback.widget.ArrayObjectAdapter
-import android.support.v17.leanback.widget.Presenter
+import androidx.leanback.widget.ArrayObjectAdapter
+import androidx.leanback.widget.Presenter
 
 operator fun <T> ArrayObjectAdapter.plusAssign(element: T) {
     this.add(element)

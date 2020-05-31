@@ -15,7 +15,7 @@
 package com.example.android.watchnextcodelab.channels
 
 import android.content.Context
-import android.support.annotation.WorkerThread
+import androidx.annotation.WorkerThread
 import com.example.android.watchnextcodelab.database.MockDatabase
 import com.example.android.watchnextcodelab.database.SharedPreferencesDatabase
 import com.example.android.watchnextcodelab.watchlist.WatchlistManager

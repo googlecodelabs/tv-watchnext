@@ -15,7 +15,7 @@
 package com.example.android.watchnextcodelab.channels
 
 import android.content.Context
-import android.support.media.tv.TvContractCompat
+import androidx.tvprovider.media.tv.TvContractCompat
 import com.example.android.watchnextcodelab.channels.ChannelTvProviderFacade.ProgramMetadata
 import com.example.android.watchnextcodelab.database.MockDatabase
 import com.example.android.watchnextcodelab.model.Category

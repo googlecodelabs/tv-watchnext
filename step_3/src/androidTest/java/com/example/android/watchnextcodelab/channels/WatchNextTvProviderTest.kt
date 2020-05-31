@@ -17,10 +17,10 @@ package com.example.android.watchnextcodelab.channels
 import android.content.ContentResolver
 import android.content.Context
 import android.media.tv.TvContract
-import android.support.media.tv.TvContractCompat
-import android.support.test.InstrumentationRegistry
-import android.support.test.filters.MediumTest
-import android.support.test.runner.AndroidJUnit4
+import androidx.tvprovider.media.tv.TvContractCompat
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.filters.MediumTest
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.android.watchnextcodelab.createMovieWithTitle
 import com.example.android.watchnextcodelab.model.Movie
 import org.hamcrest.Matchers.greaterThan

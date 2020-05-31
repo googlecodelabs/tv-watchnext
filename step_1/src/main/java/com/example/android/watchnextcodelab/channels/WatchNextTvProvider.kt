@@ -18,8 +18,8 @@ import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.provider.BaseColumns
-import android.support.media.tv.TvContractCompat
-import android.support.media.tv.WatchNextProgram
+import androidx.tvprovider.media.tv.TvContractCompat
+import androidx.tvprovider.media.tv.WatchNextProgram
 import android.text.TextUtils
 import android.util.Log
 import com.example.android.watchnextcodelab.model.Movie

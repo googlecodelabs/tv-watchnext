@@ -17,7 +17,7 @@ package com.example.android.watchnextcodelab.model
 import android.media.tv.TvContentRating
 import android.os.Parcel
 import android.os.Parcelable
-import android.support.media.tv.TvContractCompat
+import androidx.tvprovider.media.tv.TvContractCompat
 
 /**
  * Represents a movie entity with detailed attributes describing the video.
@@ -29,9 +29,7 @@ data class Movie @JvmOverloads constructor(
         val duration: Long,
         val previewVideoUrl: String,
         val videoUrl: String,
-        @field:TvContractCompat.PreviewProgramColumns.AspectRatio
         val posterArtAspectRatio: Int,
-        @field:TvContractCompat.PreviewProgramColumns.AspectRatio
         val aspectRatio: Int,
         val thumbnailUrl: String,
         val cardImageUrl: String,

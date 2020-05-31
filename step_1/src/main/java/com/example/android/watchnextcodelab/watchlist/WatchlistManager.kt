@@ -14,8 +14,8 @@
 
 package com.example.android.watchnextcodelab.watchlist
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import android.content.Context
 import com.example.android.watchnextcodelab.channels.WatchNextTvProvider
 import com.example.android.watchnextcodelab.database.MockDatabase

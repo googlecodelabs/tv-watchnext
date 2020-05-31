@@ -14,12 +14,12 @@
 
 package com.example.android.watchnextcodelab.database
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import android.content.Context
 import android.media.Rating
 import android.media.tv.TvContentRating
-import android.support.media.tv.TvContractCompat
+import androidx.tvprovider.media.tv.TvContractCompat
 import android.text.TextUtils
 import com.example.android.watchnextcodelab.OpenForMocking
 import com.example.android.watchnextcodelab.model.Category
